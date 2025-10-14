@@ -2,16 +2,19 @@
 
 import re
 from string import punctuation #Imports all of the special characters
+from hashing import hashed
 
 
+#Text Based UI -> Moving to Tkinter
 
-def option():
-    pass
+print("Option 1: Login")
 
-def credentials():
-    pass
 
-def validate(password):
+username = input("Enter username")
+password = input("Enter password")
+
+
+def validate(user_password):
 
     is_valid = True
 
@@ -46,12 +49,13 @@ def validate(password):
 
     #Return the result (whether the password is acceptable or not)
     if is_valid:
-        print("Password is valid")
         return True
     else:
         return False
+    
+while validate(password) == False:
+    print("Password is invalid")
+    password = input("Enter password: ")
+
 
     
-
-def hash(password):
-    pass
