@@ -1,16 +1,17 @@
 #Imports
 import sqlite3
+from UI import *
 
 #Satellite System Database
 conn = sqlite3.connect('satellite_system.db')
 
 # Create a cursor
 c = conn.cursor()
-c.execute("PRAGMA foreign_keys = ON")
+c.execute("PRAGMA foreign_keys = ON") #Enables foreign keys to enforce relationships between tables
 
 #Create Users table
 c.execute("""CREATE TABLE Users (
-        user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER PRIMARY KEY AUTOINCREMENT,             
         username TEXT NOT NULL UNIQUE,
         password_hash TEXT NOT NULL
     )""")
