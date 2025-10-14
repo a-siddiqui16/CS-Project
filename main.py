@@ -21,11 +21,16 @@ login_label = tk.Label(window, text="Login")
 username_label = tk.Label(window, text="Username")
 username_entry = tk.Entry(window)
 password_entry = tk.Entry(window, show="*")
-password_label - tk.Label(window, text="Password")
+password_label = tk.Label(window, text="Password")
 login_button = tk.Button(window, text="Login")
 
 #Placing widgets on screen
-login_label
+login_label.pack(pady=20)
+username_label.pack(pady=5)
+username_entry.pack(pady=5)
+password_label.pack(pady=5)
+password_entry.pack(pady=5)
+login_button.pack(pady=10)
 
 
 
