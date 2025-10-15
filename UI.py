@@ -3,17 +3,10 @@ import re
 import tkinter as tk
 from tkinter import messagebox
 from string import punctuation  #Imports all of the special characters
-from hashing import hash_password
+from hashing import hash_password, verify_password
 
 
 
-#Text Based UI -> Moving to Tkinter
-
-print("Option 1: Login")
-
-
-username = input("Enter username: ")
-password = input("Enter password: ")
 
 
 def validate(user_password):
@@ -52,6 +45,20 @@ def validate(user_password):
 
     #Return the result (whether the password is acceptable or not)
     return is_valid
+
+
+def validate_login(password, stored_hash):
+    """
+    Validates user login by checking if the password matches the stored hash
+    
+    Args:
+        password: The password entered by the user
+        stored_hash: The hashed password stored in the database
+    
+    Returns:
+        True if password matches, False otherwise
+    """
+    return verify_password(password, stored_hash)
 
     
 while not validate(password):
