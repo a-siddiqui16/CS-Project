@@ -1,10 +1,10 @@
-# Imports
+#Imports
 import re
-from string import punctuation  # Imports all of the special characters
+from string import punctuation  #Imports all of the special characters
 from hashing import hash_password
 
 
-# Text Based UI -> Moving to Tkinter
+#Text Based UI -> Moving to Tkinter
 
 print("Option 1: Login")
 
@@ -16,27 +16,27 @@ password = input("Enter password: ")
 def validate(user_password):
     is_valid = True
 
-    # Checks minimum length
+    #Checks minimum length
     if len(user_password) < 8:
         print("Password must be at least 8 characters long")
         is_valid = False
 
-    # Checks for uppercase letter
+    #Checks for uppercase letter
     if not re.search(r'[A-Z]', user_password):
         print("Password must contain at least one uppercase letter")
         is_valid = False
 
-    # Checks for lowercase letter
+    #Checks for lowercase letter
     if not re.search(r'[a-z]', user_password):
         print("Password must contain at least one lowercase letter")
         is_valid = False
 
-    # Checks for digit
+    #Checks for digit
     if not re.search(r'[0-9]', user_password):
         print("Password must contain at least one number")
         is_valid = False
 
-    # Checks for special character
+    #Checks for special character
     has_special = False
     for char in user_password:
         if char in punctuation:
@@ -47,7 +47,7 @@ def validate(user_password):
         print("Password must contain at least one special character")
         is_valid = False
 
-    # Return the result (whether the password is acceptable or not)
+    #Return the result (whether the password is acceptable or not)
     return is_valid
 
     
@@ -56,7 +56,7 @@ while not validate(password):
     password = input("Enter password: ")
 
 
-# Hash the validated password
+#Hash the validated password
 hashed_password = hash_password(password)
 print(f"Successfully logged in as {username}")
 print(f"Hashed password: {hashed_password}")
