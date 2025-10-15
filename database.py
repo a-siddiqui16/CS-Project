@@ -1,23 +1,22 @@
-#Imports
+# Imports
 import sqlite3
-from UI import *
 
-#Satellite System Database
+# Satellite System Database
 conn = sqlite3.connect('satellite_system.db')
 
 # Create a cursor
 c = conn.cursor()
-c.execute("PRAGMA foreign_keys = ON") #Enables foreign keys to enforce relationships between tables
+c.execute("PRAGMA foreign_keys = ON")  # Enables foreign keys to enforce relationships between tables
 
-#Create Users table
-c.execute("""CREATE TABLE Users (
+# Create Users table
+c.execute("""CREATE TABLE IF NOT EXISTS Users (
         user_id INTEGER PRIMARY KEY AUTOINCREMENT,             
         username TEXT NOT NULL UNIQUE,
         password_hash TEXT NOT NULL
     )""")
 
-#Create Sessions table
-c.execute("""CREATE TABLE Sessions (
+# Create Sessions table
+c.execute("""CREATE TABLE IF NOT EXISTS Sessions (
         session_id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
         token TEXT NOT NULL UNIQUE,
@@ -26,15 +25,15 @@ c.execute("""CREATE TABLE Sessions (
         FOREIGN KEY (user_id) REFERENCES Users(user_id)
     )""")
 
-#Create Satellites table
-c.execute("""CREATE TABLE Satellites (
+# Create Satellites table
+c.execute("""CREATE TABLE IF NOT EXISTS Satellites (
         norad_id INTEGER PRIMARY KEY,
         satellite_name TEXT NOT NULL,
         satellite_type TEXT
     )""")
 
-#Create TLE_Data table
-c.execute("""CREATE TABLE TLE_Data (
+# Create TLE_Data table
+c.execute("""CREATE TABLE IF NOT EXISTS TLE_Data (
         tle_id INTEGER PRIMARY KEY AUTOINCREMENT,
         norad_id INTEGER NOT NULL,
         tle_line1 TEXT NOT NULL,
@@ -48,8 +47,8 @@ c.execute("""CREATE TABLE TLE_Data (
         FOREIGN KEY (norad_id) REFERENCES Satellites(norad_id)
     )""")
 
-#Create Positional_Data table
-c.execute("""CREATE TABLE Positional_Data (
+# Create Positional_Data table
+c.execute("""CREATE TABLE IF NOT EXISTS Positional_Data (
         position_id INTEGER PRIMARY KEY AUTOINCREMENT,
         norad_id INTEGER NOT NULL,
         latitude REAL NOT NULL,
@@ -60,8 +59,8 @@ c.execute("""CREATE TABLE Positional_Data (
         FOREIGN KEY (norad_id) REFERENCES Satellites(norad_id)
     )""")
 
-#Create User_Favourites table
-c.execute("""CREATE TABLE User_Favourites (
+# Create User_Favourites table
+c.execute("""CREATE TABLE IF NOT EXISTS User_Favourites (
         favourite_id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
         norad_id INTEGER NOT NULL,
@@ -70,9 +69,10 @@ c.execute("""CREATE TABLE User_Favourites (
         UNIQUE(user_id, norad_id)
     )""")
 
-#Commit our commands
+# Commit our commands
 conn.commit()
 
-#Close connection
+# Close connection
 conn.close()
 
+print("Database initialized successfully!")
