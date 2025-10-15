@@ -1,72 +1,131 @@
-#Imports
+# Imports
 import re
 import tkinter as tk
 from tkinter import messagebox
-from string import punctuation  #Imports all of the special characters
+from string import punctuation
+import sqlite3
+from hashing import hash_password, verify_password
 
 
-
-
-
-
-def validate(user_password):
-    is_valid = True
-
-    #Checks minimum length
-    if len(user_password) < 8:
-        print("Password must be at least 8 characters long")
-        is_valid = False
-
-    #Checks for uppercase letter
-    if not re.search(r'[A-Z]', user_password):
-        print("Password must contain at least one uppercase letter")
-        is_valid = False
-
-    #Checks for lowercase letter
-    if not re.search(r'[a-z]', user_password):
-        print("Password must contain at least one lowercase letter")
-        is_valid = False
-
-    #Checks for digit
-    if not re.search(r'[0-9]', user_password):
-        print("Password must contain at least one number")
-        is_valid = False
-
-    #Checks for special character
-    has_special = False
-    for char in user_password:
-        if char in punctuation:
-            has_special = True
-            break
-
+def validate_password(password):
+    """
+    Validates password strength
+    Returns: (is_valid, error_message)
+    """
+    errors = []
+    
+    if len(password) < 8:
+        errors.append("at least 8 characters long")
+    
+    if not re.search(r'[A-Z]', password):
+        errors.append("at least one uppercase letter")
+    
+    if not re.search(r'[a-z]', password):
+        errors.append("at least one lowercase letter")
+    
+    if not re.search(r'[0-9]', password):
+        errors.append("at least one number")
+    
+    has_special = any(char in punctuation for char in password)
     if not has_special:
-        print("Password must contain at least one special character")
-        is_valid = False
-
-    #Return the result (whether the password is acceptable or not)
-    return is_valid
-
-
-def validate_login(password, stored_hash):
-    """
-    Validates user login by checking if the password matches the stored hash
+        errors.append("at least one special character")
     
-    Args:
-        password: The password entered by the user
-        stored_hash: The hashed password stored in the database
+    if errors:
+        return False, "Password must contain:\n- " + "\n- ".join(errors)
+    return True, ""
+
+
+def validate_login():
+    username = username_entry.get()
+    password = password_entry.get()
+
+    if not username or not password:
+        messagebox.showerror("Error", "Please enter both username and password.")
+        return
+
+    # Connect to database
+    conn = sqlite3.connect('satellite_system.db')
+    c = conn.cursor()
+
+    # Check if user exists
+    c.execute("SELECT password_hash FROM Users WHERE username = ?", (username,))
+    result = c.fetchone()
+
+    conn.close()
+
+    if result:
+        stored_hash = result[0]
+        if verify_password(password, stored_hash):
+            messagebox.showinfo("Success", "Login Successful!")
+        else:
+            messagebox.showerror("Error", "Invalid password.")
+    else:
+        messagebox.showerror("Error", "User not found.")
+
+
+def register_user():
+    username = username_entry.get()
+    password = password_entry.get()
+
+    if not username or not password:
+        messagebox.showerror("Error", "Please enter both username and password.")
+        return
     
-    Returns:
-        True if password matches, False otherwise
-    """
-    return verify_password(password, stored_hash)
+    # Validate password strength
+    is_valid, error_msg = validate_password(password)
+    if not is_valid:
+        messagebox.showerror("Invalid Password", error_msg)
+        return
 
-    
-while not validate(password):
-    print("Password is invalid")
-    password = input("Enter password: ")
+    # Hash the password
+    hashed_password = hash_password(password)
+
+    # Connect to database
+    conn = sqlite3.connect('satellite_system.db')
+    c = conn.cursor()
+
+    try:
+        # Insert new user
+        c.execute("INSERT INTO Users (username, password_hash) VALUES (?, ?)", 
+                  (username, hashed_password))
+        conn.commit()
+        messagebox.showinfo("Success", "User registered successfully!")
+    except sqlite3.IntegrityError:
+        messagebox.showerror("Error", "Username already exists.")
+    finally:
+        conn.close()
 
 
-#Hash the validated password
-hashed_password = hash_password(password)
-print(f"Successfully logged in as {username}")
-print(f"Hashed password: {hashed_password}")
+# Create the main window
+parent = tk.Tk()
+parent.title("Satellite System - Login")
+parent.geometry("350x220")
+
+# Create and place the username label and entry
+username_label = tk.Label(parent, text="Username:")
+username_label.pack(pady=5)
+
+username_entry = tk.Entry(parent, width=30)
+username_entry.pack(pady=5)
+
+# Create and place the password label and entry
+password_label = tk.Label(parent, text="Password:")
+password_label.pack(pady=5)
+
+password_entry = tk.Entry(parent, show="*", width=30)
+password_entry.pack(pady=5)
+
+# Create button frame
+button_frame = tk.Frame(parent)
+button_frame.pack(pady=15)
+
+# Create and place the login button
+login_button = tk.Button(button_frame, text="Login", command=validate_login, width=12, bg="#4CAF50", fg="white")
+login_button.pack(side=tk.LEFT, padx=5)
+
+# Create and place the register button
+register_button = tk.Button(button_frame, text="Register", command=register_user, width=12, bg="#2196F3", fg="white")
+register_button.pack(side=tk.LEFT, padx=5)
+
+# Start the Tkinter event loop
+parent.mainloop()

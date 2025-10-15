@@ -22,9 +22,9 @@ args = "Satellite System"
 name = "Satellite System"
 author = "agent"
 
+[workflows.workflow.metadata]
+outputType = "console"
+
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "python UI.py"
-
-[workflows.workflow.metadata]
-outputType = "console"
