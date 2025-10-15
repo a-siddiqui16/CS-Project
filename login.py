@@ -8,17 +8,17 @@ from hashing import hash_password, verify_password
 def validate_login():
     username = username_entry.get()
     password = password_entry.get()
-    
+
     # Connect to database
     conn = sqlite3.connect('satellite_system.db')
     c = conn.cursor()
-    
+
     # Check if user exists
     c.execute("SELECT password_hash FROM Users WHERE username = ?", (username,))
     result = c.fetchone()
-    
+
     conn.close()
-    
+
     if result:
         stored_hash = result[0]
         if verify_password(password, stored_hash):
@@ -31,18 +31,18 @@ def validate_login():
 def register_user():
     username = username_entry.get()
     password = password_entry.get()
-    
+
     if not username or not password:
         messagebox.showerror("Error", "Please enter both username and password.")
         return
-    
+
     # Hash the password
     hashed_password = hash_password(password)
-    
+
     # Connect to database
     conn = sqlite3.connect('satellite_system.db')
     c = conn.cursor()
-    
+
     try:
         # Insert new user
         c.execute("INSERT INTO Users (username, password_hash) VALUES (?, ?)", 
