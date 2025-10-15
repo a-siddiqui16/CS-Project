@@ -1,7 +1,10 @@
 #Imports
 import re
+import tkinter as tk
+from tkinter import messagebox
 from string import punctuation  #Imports all of the special characters
 from hashing import hash_password
+
 
 
 #Text Based UI -> Moving to Tkinter
