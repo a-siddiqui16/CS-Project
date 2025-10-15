@@ -1,4 +1,7 @@
 import requests
+import sqlite3
+
+norad = int(input("Enter NORAD ID: "))
 
 def get_satellite_tle(norad_id):
 
@@ -22,13 +25,29 @@ def get_satellite_tle(norad_id):
         tle_line1 = lines[1].strip()
         tle_line2 = lines[2].strip()
 
-        #Print individual lines for celstrak
-        print(f"Satellite data for {norad_id}")
-        print(f"Name: {satellite_name}")
-        print(f"Line 1: {tle_line1}")
-        print(f"Line 2: {tle_line2}")
-        
+        print(f"Found: {satellite_name}")
 
-print(get_satellite_tle(205))
+        #Return individual lines for celstrak
+        return {
+            'norad_id': norad_id,
+            'satellite_name': satellite_name,
+            'tle_line1': tle_line1,
+            'tle_line2': tle_line2
+
+        }
+    else:
+        print(f"Error: Status code {response.status_code}")
+        return None
+       
+get_satellite_tle(norad)
+
+def insert_tle_into_database(satellite_data):
+    pass
+
+def import_satellite(norad_id):
+    pass
+
+
+
 
 
