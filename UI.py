@@ -8,10 +8,7 @@ from hashing import hash_password, verify_password
 
 
 def validate_password(password):
-    """
-    Validates password strength
-    Returns: (is_valid, error_message)
-    """
+
     errors = []
 
     if len(password) < 8:
@@ -96,36 +93,37 @@ def register_user():
         conn.close()
 
 
-# Create the main window
+#Create the main window
 parent = tk.Tk()
 parent.title("Satellite System - Login")
 parent.geometry("1920x1080")
 
-# Create and place the username label and entry
+#Create and place the username label and entry
 username_label = tk.Label(parent, text="Username:")
 username_label.pack(pady=5)
 
 username_entry = tk.Entry(parent, width=30)
 username_entry.pack(pady=5)
 
-# Create and place the password label and entry
+#Create and place the password label and entry
 password_label = tk.Label(parent, text="Password:")
 password_label.pack(pady=5)
 
 password_entry = tk.Entry(parent, show="*", width=30)
 password_entry.pack(pady=5)
 
-# Create button frame
+#Create button frame
 button_frame = tk.Frame(parent)
 button_frame.pack(pady=15)
 
-# Create and place the login button
+#Create and place the login button
 login_button = tk.Button(button_frame, text="Login", command=validate_login, width=12, bg="#4CAF50", fg="white")
 login_button.pack(side=tk.LEFT, padx=5)
 
-# Create and place the register button
+#Create and place the register button
 register_button = tk.Button(button_frame, text="Register", command=register_user, width=12, bg="#2196F3", fg="white")
 register_button.pack(side=tk.LEFT, padx=5)
 
-# Start the Tkinter event loop
+#Start the Tkinter event loop
 parent.mainloop()
+
