@@ -15,7 +15,7 @@ def validate_login():
     messagebox.showerror("Login Failed", "Invalid password.")
 
 #Create the main window
-# Create the main window
+
 parent = tk.Tk()
 parent.title("Login Form")
 
