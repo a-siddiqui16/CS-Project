@@ -27,9 +27,10 @@ geocentric = satellite_epoch.at(t)
 lat, lon = wgs84.latlon_of(geocentric)
 height = wgs84.height_of(geocentric)
 
-def find_Cartesian(x,y,z):
-  x, y, z = position.xyz.km
-  
+#Function returns the cartesian coordiantes for latitude, longitude and height
+def find_Cartesian(x, y ,z):
+  x, y, z = geocentric.xyz.km
+
   print('  x = {:.3f} km'.format(x))
   print('  y = {:.3f} km'.format(y))
   print('  z = {:.3f} km'.format(z))
