@@ -18,6 +18,10 @@ author = "agent"
 task = "workflow.run"
 args = "Satellite System"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Satellite Tracker"
+
 [[workflows.workflow]]
 name = "Satellite System"
 author = "agent"
@@ -28,3 +32,22 @@ outputType = "vnc"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "python UI.py"
+
+[[workflows.workflow]]
+name = "Satellite Tracker"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python tracker.py"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[ports]]
+localPort = 36211
+externalPort = 80
+
+[[ports]]
+localPort = 45169
+externalPort = 3000

@@ -93,6 +93,9 @@ def register_user():
         conn.close()
 
 
+#https://www.w3resource.com/python-exercises/tkinter/python-tkinter-basic-exercise-16.php
+
+
 #Create the main window
 parent = tk.Tk()
 parent.title("Satellite System - Login")
