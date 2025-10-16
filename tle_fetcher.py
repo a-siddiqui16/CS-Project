@@ -1,8 +1,6 @@
 import requests
 import sqlite3
 
-norad = int(input("Enter NORAD ID: "))
-
 def get_satellite_tle(norad_id):
 
     #Builds a URL that can fetch the TLE data for any satellite
@@ -25,8 +23,6 @@ def get_satellite_tle(norad_id):
         tle_line1 = lines[1].strip()
         tle_line2 = lines[2].strip()
 
-        print(f"Found: {satellite_name}")
-
         #Return individual lines for celstrak
         return {
             'norad_id': norad_id,
@@ -38,8 +34,7 @@ def get_satellite_tle(norad_id):
     else:
         print(f"Error: Status code {response.status_code}")
         return None
-       
-get_satellite_tle(norad)
+
 
 def insert_tle_into_database(satellite_data):
     pass
