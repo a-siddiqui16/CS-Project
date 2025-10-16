@@ -23,13 +23,15 @@ year, month, day, hour, minute, second = satellite_epoch.epoch.utc
 t = ts.utc(year, month, day, hour, minute, second)
 geocentric = satellite_epoch.at(t)
 
-#Outputs satellite latitude, longitude and height
-
+#Stores satellite latitude, longitude and height
 lat, lon = wgs84.latlon_of(geocentric)
 height = wgs84.height_of(geocentric)
-position = wgs84.geographic_position_of(geocentric)
 
-print(lat, lon, height)
-print(position)
+def find_Cartesian(x,y,z):
+  x, y, z = position.xyz.km
+  
+  print('  x = {:.3f} km'.format(x))
+  print('  y = {:.3f} km'.format(y))
+  print('  z = {:.3f} km'.format(z))
 
-
+find_Cartesian(lat, lon, height)
