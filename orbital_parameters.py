@@ -1,3 +1,4 @@
+#Imports
 from skyfield.api import EarthSatellite
 from skyfield.api import load
 from skyfield.api import wgs84
@@ -36,3 +37,9 @@ def find_Cartesian(x, y ,z):
   print('  z = {:.3f} km'.format(z))
 
 find_Cartesian(lat, lon, height)
+
+
+
+#Add to references:
+#https://rhodesmill.org/skyfield/coordinates.html
+#https://rhodesmill.org/skyfield/earth-satellites.html

@@ -1,3 +1,4 @@
+#Imports
 from vpython import *
 
 #Create a 3D scene

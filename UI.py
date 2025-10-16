@@ -28,8 +28,8 @@ def validate_password(password):
         errors.append("at least one special character")
 
     if errors:
-        return False, "Password must contain:\n- " + "\n- ".join(errors)
-    return True, ""
+        error_message = "Password must contain:\n- " + "\n- ".join(errors)
+        return False, error_message
 
 
 def validate_login():
@@ -97,26 +97,26 @@ def register_user():
 
 
 #Create the main window
-parent = tk.Tk()
-parent.title("Satellite System - Login")
-parent.geometry("1920x1080")
+window = tk.Tk()
+window.title("Satellite System - Login")
+window.geometry("1920x1080")
 
 #Create and place the username label and entry
-username_label = tk.Label(parent, text="Username:")
+username_label = tk.Label(window, text="Username:")
 username_label.pack(pady=5)
 
-username_entry = tk.Entry(parent, width=30)
+username_entry = tk.Entry(window, width=30)
 username_entry.pack(pady=5)
 
 #Create and place the password label and entry
-password_label = tk.Label(parent, text="Password:")
+password_label = tk.Label(window, text="Password:")
 password_label.pack(pady=5)
 
-password_entry = tk.Entry(parent, show="*", width=30)
+password_entry = tk.Entry(window, show="*", width=30)
 password_entry.pack(pady=5)
 
 #Create button frame
-button_frame = tk.Frame(parent)
+button_frame = tk.Frame(window)
 button_frame.pack(pady=15)
 
 #Create and place the login button
@@ -128,5 +128,5 @@ register_button = tk.Button(button_frame, text="Register", command=register_user
 register_button.pack(side=tk.LEFT, padx=5)
 
 #Start the Tkinter event loop
-parent.mainloop()
+window.mainloop()
 
